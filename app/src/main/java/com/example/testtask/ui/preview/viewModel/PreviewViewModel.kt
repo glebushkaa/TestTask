@@ -2,15 +2,14 @@ package com.example.testtask.ui.preview.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.testtask.data.models.Data
-import com.example.testtask.data.repository.ImagesRepository
+import com.example.testtask.data.retrofit.GifApi
 
-class PreviewViewModel(private val imagesRep: ImagesRepository) : ViewModel() {
+class PreviewViewModel(private val api: GifApi) : ViewModel() {
 
     suspend fun getGIFs() : List<Data>?{
-        imagesRep.getGIFs().apply {
+        api.getGIFs().apply {
             return if (isSuccessful) {
-                body()?.data
-
+                body()?.data ?: emptyList()
             }else{
                 emptyList()
             }

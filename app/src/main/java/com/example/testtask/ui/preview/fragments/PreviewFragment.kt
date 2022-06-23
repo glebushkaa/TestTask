@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 import com.example.testtask.data.models.Data
+import com.example.testtask.data.utils.DATA
 import com.example.testtask.databinding.FragmentPreviewBinding
 import com.example.testtask.ui.preview.recyclerView.Adapter
 import com.example.testtask.ui.preview.viewModel.PreviewViewModel
@@ -25,7 +26,7 @@ class PreviewFragment : Fragment(R.layout.fragment_preview) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPreviewBinding.bind(view)
         initAdapter()
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.getGIFs()?.let {
                 adapter?.setData(it.toCollection(ArrayList()))
             }
@@ -36,13 +37,15 @@ class PreviewFragment : Fragment(R.layout.fragment_preview) {
         adapter = Adapter {
             findNavController().navigate(
                 R.id.preview_to_certain, bundleOf(
-                    "data" to it
+                    DATA to it
                 )
             )
         }
         adapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        binding?.recyclerView?.adapter = adapter
-        binding?.recyclerView?.itemAnimator = null
+        binding?.apply {
+            recyclerView.adapter = adapter
+            recyclerView.itemAnimator = null
+        }
     }
 }

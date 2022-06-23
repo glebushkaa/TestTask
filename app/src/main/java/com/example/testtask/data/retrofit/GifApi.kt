@@ -6,10 +6,15 @@ import com.example.testtask.data.utils.RATING
 import com.example.testtask.data.models.ApiModel
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface GifApi {
 
-    @GET("trending?api_key=$API_KEY&limit=$GIFS_LIMIT&rating=$RATING")
-    suspend fun getGIFs() : Response<ApiModel>
+    @GET("trending")
+    suspend fun getGIFs(
+        @Query("api_key") apiKey : String = API_KEY,
+        @Query("limit") limit : String = GIFS_LIMIT,
+        @Query("rating") rating : String = RATING
+    ) : Response<ApiModel>
 
 }

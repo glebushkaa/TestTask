@@ -13,16 +13,6 @@ class Adapter(val clickListener : (data : Data) -> Unit) : RecyclerView.Adapter<
 
     private val oldList: ArrayList<Data> = arrayListOf()
 
-    inner class Holder(private val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            binding.image.resizeImage(oldList[bindingAdapterPosition].images?.original?.url)
-            binding.gifId.text = oldList[bindingAdapterPosition].title
-            binding.root.setOnClickListener {
-                clickListener(oldList[bindingAdapterPosition])
-            }
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding: ItemBinding =
             ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -50,6 +40,16 @@ class Adapter(val clickListener : (data : Data) -> Unit) : RecyclerView.Adapter<
             .fitCenter()
             .centerCrop()
             .into(this)
+    }
+
+    inner class Holder(private val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind() {
+            binding.image.resizeImage(oldList[bindingAdapterPosition].images?.original?.url)
+            binding.gifId.text = oldList[bindingAdapterPosition].title
+            binding.root.setOnClickListener {
+                clickListener(oldList[bindingAdapterPosition])
+            }
+        }
     }
 
 }

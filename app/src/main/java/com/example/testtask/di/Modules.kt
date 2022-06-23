@@ -1,6 +1,5 @@
 package com.example.testtask.di
 
-import com.example.testtask.data.repository.ImagesRepository
 import com.example.testtask.data.retrofit.GifApi
 import com.example.testtask.data.utils.BASE_URL
 import com.example.testtask.ui.preview.viewModel.PreviewViewModel
@@ -16,12 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 val viewModelModule = module {
     viewModel {
         PreviewViewModel(get())
-    }
-}
-
-val repositoryModule = module {
-    single {
-        ImagesRepository(get())
     }
 }
 
