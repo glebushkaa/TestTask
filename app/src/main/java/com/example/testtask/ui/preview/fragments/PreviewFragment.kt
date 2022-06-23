@@ -4,29 +4,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testtask.MyApp
 import com.example.testtask.R
-import com.example.testtask.data.models.ApiModel
 import com.example.testtask.data.models.Data
-import com.example.testtask.data.retrofit.Api
 import com.example.testtask.databinding.FragmentPreviewBinding
 import com.example.testtask.ui.preview.recyclerView.Adapter
 import com.example.testtask.ui.preview.viewModel.PreviewViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PreviewFragment : Fragment(R.layout.fragment_preview) {
 
-    private val viewModel by viewModels<PreviewViewModel>()
+    private val viewModel: PreviewViewModel by viewModel()
     private var binding: FragmentPreviewBinding? = null
     private var adapter: Adapter? = null
 
@@ -34,7 +25,11 @@ class PreviewFragment : Fragment(R.layout.fragment_preview) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPreviewBinding.bind(view)
         initAdapter()
-        setGIFs()
+        lifecycleScope.launch{
+            viewModel.getGIFs()?.let {
+                adapter?.setData(it.toCollection(ArrayList()))
+            }
+        }
     }
 
     private fun initAdapter() {
@@ -48,16 +43,6 @@ class PreviewFragment : Fragment(R.layout.fragment_preview) {
         adapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding?.recyclerView?.adapter = adapter
-    }
-
-    private fun setGIFs() {
-        lifecycleScope.launch {
-            (requireActivity().application as MyApp).retrofit?.let { retrofit ->
-                viewModel.getGIFs(retrofit).let {
-                    adapter?.setData(viewModel.list)
-                }
-
-            }
-        }
+        binding?.recyclerView?.itemAnimator = null
     }
 }

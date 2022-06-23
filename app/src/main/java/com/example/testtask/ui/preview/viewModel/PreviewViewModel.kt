@@ -2,20 +2,19 @@ package com.example.testtask.ui.preview.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.testtask.data.models.Data
-import com.example.testtask.data.retrofit.RetrofitHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import com.example.testtask.data.repository.ImagesRepository
 
-class PreviewViewModel : ViewModel() {
-    val list: ArrayList<Data> = ArrayList()
-    private val retrofitHelper = RetrofitHelper()
+class PreviewViewModel(private val imagesRep: ImagesRepository) : ViewModel() {
 
-    suspend fun getGIFs(retrofit: Retrofit) {
-        list.clear()
-        list.addAll(retrofitHelper.getGIFs(retrofit))
+    suspend fun getGIFs() : List<Data>?{
+        imagesRep.getGIFs().apply {
+            return if (isSuccessful) {
+                body()?.data
+
+            }else{
+                emptyList()
+            }
+        }
     }
 
 }
