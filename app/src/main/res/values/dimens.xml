@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    Margin-->
+    <dimen name="top_text_margin">44dp</dimen>
+    <dimen name="side_text_margin">40dp</dimen>
+
+    <dimen name="item_margin">8dp</dimen>
+    <dimen name="item_picture_size">160dp</dimen>
+    <dimen name="item_corner_radius">20dp</dimen>
+    <dimen name="item_top_text_margin">40dp</dimen>
+    <dimen name="item_side_text_margin">16dp</dimen>
+    <!--    Text size-->
+    <dimen name="certain_text_size">24sp</dimen>
+    <dimen name="item_text_size">18sp</dimen>
+    
+</resources>
